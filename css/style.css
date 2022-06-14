@@ -664,8 +664,8 @@ body {
 
 .articles .articles__wrpa .articles-bottom {
   max-width: 100%;
-  display: black;
-  background: black4;
+  color: black;
+  background: black;
 }
 
 .articles .articles__wrpa .articles-bottom .articles-bottom__parag {
