@@ -1,18 +1,18 @@
 // Custom Scripts
 // Custom scripts
 // Мобильное меню бургер
+const burger = document.querySelector(".burger");
+const menu = document.querySelector(".menu");
+const body = document.querySelector("body");
 function burgerMenu() {
-   const burger = document.querySelector(".burger");
-   const menu = document.querySelector(".menu");
-   const body = document.querySelector("body");
    burger.addEventListener("click", () => {
       if (!menu.classList.contains("active")) {
          menu.classList.add("active");
-         burger.classList.add("active-burger");
+         burger.classList.add("active");
          body.classList.add("locked");
       } else {
          menu.classList.remove("active");
-         burger.classList.remove("active-burger");
+         burger.classList.remove("active");
          body.classList.remove("locked");
       }
    });
@@ -40,4 +40,72 @@ function fixedNav() {
    }
 }
 window.addEventListener("scroll", fixedNav);
+
+//Прокрутка
+const menuLinks = document.querySelectorAll(".menu__item-link[data-goto]");
+if (menuLinks.length > 0) {
+   menuLinks.forEach((menuLink) => {
+      menuLink.addEventListener("click", onMenuLinkClick);
+   });
+
+   function onMenuLinkClick(e) {
+      const menuLink = e.target;
+      if (
+         menuLink.dataset.goto &&
+         document.querySelector(menuLink.dataset.goto)
+      ) {
+         const gotoBlock = document.querySelector(menuLink.dataset.goto);
+         const gotoBlockValue =
+            gotoBlock.getBoundingClientRect().top +
+            pageYOffset -
+            document.querySelector("header").offsetHeight;
+
+         if (menu.classList.contains("active")) {
+            document.body.classList.remove("locked");
+            menu.classList.remove("active");
+            burger.classList.remove("active");
+         }
+
+         window.scrollTo({
+            top: gotoBlockValue,
+            behavior: "smooth",
+         });
+         e.preventDefault();
+      }
+   }
+}
+
+const swiper = new Swiper(".swiper", {
+   // If we need pagination
+   slidesPerView: 6,
+   loop: true,
+   spaceBetween: 40,
+
+   pagination: {
+      el: ".swiper-pagination",
+   },
+
+   // And if we need scrollbar
+   // scrollbar: {
+   //    el: ".swiper-scrollbar",
+   // },
+
+   //   // Responsive breakpoints
+   breakpoints: {
+      // when window width is >= 320px
+      20: {
+         slidesPerView: 1,
+         centeredSlides: true,
+      },
+      // when window width is >= 480px
+
+      670: {
+         slidesPerView: 3,
+         centeredSlides: true,
+      },
+      1440: {
+         slidesPerView: 5,
+      },
+   },
+});
 
